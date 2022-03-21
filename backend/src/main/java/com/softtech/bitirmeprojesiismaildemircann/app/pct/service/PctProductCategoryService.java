@@ -25,7 +25,7 @@ public class PctProductCategoryService {
     PrdProductService prdProductService;
 
     @Autowired
-    public void setPctProductCategoryEntityService(@Lazy PrdProductService prdProductService) {
+    public void setPctProductCategoryService(@Lazy PrdProductService prdProductService) {
         this.prdProductService = prdProductService;
     }
 

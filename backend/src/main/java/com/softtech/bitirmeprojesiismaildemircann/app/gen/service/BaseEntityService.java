@@ -82,12 +82,7 @@ public abstract class BaseEntityService<E extends BaseEntity, D extends JpaRepos
 
         Optional<E> entityOptional = findById(id);
 
-        E entity;
-        if (entityOptional.isPresent()){
-            entity = entityOptional.get();
-        } else {
-            throw new ItemNotFoundException(GenErrorMessage.ITEM_NOT_FOUND);
-        }
+        E entity = entityOptional.orElseThrow(() -> new ItemNotFoundException(GenErrorMessage.ITEM_NOT_FOUND));
 
         return entity;
     }

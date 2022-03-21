@@ -2,7 +2,9 @@ package com.softtech.bitirmeprojesiismaildemircann.app.usr.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.softtech.bitirmeprojesiismaildemircann.BitirmeprojesiIsmaildemircannApplication;
 import com.softtech.bitirmeprojesiismaildemircann.app.BaseTest;
+import com.softtech.bitirmeprojesiismaildemircann.app.config.H2TestProfileJPAConfig;
 import com.softtech.bitirmeprojesiismaildemircann.app.usr.dto.request.UsrUserSaveRequestDto;
 import com.softtech.bitirmeprojesiismaildemircann.app.usr.dto.request.UsrUserUpdateRequestDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -22,7 +25,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
+@SpringBootTest(classes = {BitirmeprojesiIsmaildemircannApplication.class, H2TestProfileJPAConfig.class})
+
+@Sql(scripts = "classpath:import_user.sql")
 class UsrUserControllerTest extends BaseTest {
 
     private static final String BASE_PATH = "/api/v1/users";
@@ -63,7 +68,7 @@ class UsrUserControllerTest extends BaseTest {
     void updateUser() throws Exception {
 
         UsrUserUpdateRequestDto usrUserUpdateRequestDto = UsrUserUpdateRequestDto.builder()
-                .id(302L)
+                .id(2L)
                 .username("TEST2:ismaildemircann")
                 .name("test")
                 .surname("user")
@@ -84,7 +89,7 @@ class UsrUserControllerTest extends BaseTest {
     @Test
     void deleteUser() throws Exception {
         MvcResult result = mockMvc.perform(
-                delete(BASE_PATH + "/302").content("202L").contentType(MediaType.APPLICATION_JSON)
+                delete(BASE_PATH + "/2").content("2L").contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andReturn();
 
         boolean isSuccess = isSuccess(result);

@@ -6,9 +6,7 @@ import com.softtech.bitirmeprojesiismaildemircann.app.sec.security.JwtTokenGener
 import com.softtech.bitirmeprojesiismaildemircann.app.sec.security.JwtUserDetails;
 import com.softtech.bitirmeprojesiismaildemircann.app.usr.dto.request.UsrUserSaveRequestDto;
 import com.softtech.bitirmeprojesiismaildemircann.app.usr.dto.response.UsrUserResponseDto;
-import com.softtech.bitirmeprojesiismaildemircann.app.usr.entity.UsrUser;
 import com.softtech.bitirmeprojesiismaildemircann.app.usr.service.UsrUserService;
-import com.softtech.bitirmeprojesiismaildemircann.app.usr.service.entityservice.UsrUserEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,7 +19,6 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
 
     private final UsrUserService usrUserService;
-    private final UsrUserEntityService usrUserEntityService;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenGenerator jwtTokenGenerator;
 
@@ -43,18 +40,6 @@ public class AuthenticationService {
         String bearer = EnumJwtConstant.BEARER.getConstant();
 
         return bearer + token;
-    }
-
-    public UsrUser getCurrentUser() {
-
-        JwtUserDetails jwtUserDetails = getCurrentJwtUserDetails();
-
-        UsrUser usrUser = null;
-        if (jwtUserDetails != null){
-            usrUser = usrUserEntityService.getByIdWithControl(jwtUserDetails.getId());
-        }
-
-        return usrUser;
     }
 
     public Long getCurrentUserId(){

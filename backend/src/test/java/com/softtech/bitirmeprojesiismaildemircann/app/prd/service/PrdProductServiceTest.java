@@ -205,7 +205,6 @@ public class PrdProductServiceTest {
 
     @Test
     void shouldBatchUpdateProductPrices() {
-        // FIXME: Bu testi tekrar kontrol et!
         Integer vatRate = 1;
 
         List<PrdProduct> prdProductList = new ArrayList<>();
