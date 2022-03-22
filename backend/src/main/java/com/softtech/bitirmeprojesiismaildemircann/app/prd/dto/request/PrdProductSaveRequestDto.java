@@ -18,7 +18,7 @@ public class PrdProductSaveRequestDto {
     private String name;
 
     @NotNull(message = "Tax free price cannot be null!")
-    @DecimalMin("0")
+    @DecimalMin("0.0001")
     private BigDecimal taxFreePrice;
 
     @NotNull(message = "Product category id cannot be null!")

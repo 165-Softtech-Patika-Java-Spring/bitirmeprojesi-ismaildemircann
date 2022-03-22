@@ -32,17 +32,24 @@ public class PrdProductController {
     }
 
     @GetMapping
-    public ResponseEntity findAllProducts() {
+    public ResponseEntity findAllProducts(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "30") Integer size
+    ) {
 
-        List<PrdProductResponseDto> prdProductResponseDtoList = prdProductService.findAllProducts();
+        List<PrdProductResponseDto> prdProductResponseDtoList = prdProductService.findAllProducts(page, size);
 
         return ResponseEntity.ok(RestResponse.of(prdProductResponseDtoList));
     }
 
     @GetMapping("{categoryId}")
-    public ResponseEntity findAllProductsByCategory(@PathVariable Long categoryId) {
+    public ResponseEntity findAllProductsByCategory(
+            @PathVariable Long categoryId,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "30") Integer size
+    ) {
 
-        List<PrdProductResponseDto> prdProductResponseDtoList = prdProductService.findAllProductsByCategory(categoryId);
+        List<PrdProductResponseDto> prdProductResponseDtoList = prdProductService.findAllProductsByCategory(categoryId, page, size);
 
         return ResponseEntity.ok(RestResponse.of(prdProductResponseDtoList));
     }
@@ -50,9 +57,12 @@ public class PrdProductController {
     @GetMapping("price")
     public ResponseEntity findAllProductsByPriceFilter(
             @Min(0) @RequestParam(value = "minPrice") BigDecimal minPrice,
-            @Min(0) @RequestParam(value = "maxPrice") BigDecimal maxPrice) {
+            @Min(0) @RequestParam(value = "maxPrice") BigDecimal maxPrice,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "30") Integer size
+    ) {
 
-        List<PrdProductResponseDto> prdProductResponseDtoList = prdProductService.findAllProductsByPriceFilter(minPrice, maxPrice);
+        List<PrdProductResponseDto> prdProductResponseDtoList = prdProductService.findAllProductsByPriceFilter(minPrice, maxPrice, page, size);
 
         return ResponseEntity.ok(RestResponse.of(prdProductResponseDtoList));
     }

@@ -5,7 +5,7 @@ public enum GenErrorMessage implements BaseErrorMessage{
     ITEM_NOT_FOUND("Item not found!"),
     ;
 
-    private String message;
+    private final String message;
     GenErrorMessage(String message) {
         this.message = message;
     }

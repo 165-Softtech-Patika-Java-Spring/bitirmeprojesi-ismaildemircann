@@ -5,6 +5,7 @@ import com.softtech.bitirmeprojesiismaildemircann.app.gen.service.BaseEntityServ
 import com.softtech.bitirmeprojesiismaildemircann.app.prd.dao.PrdProductDao;
 import com.softtech.bitirmeprojesiismaildemircann.app.prd.entity.PrdProduct;
 import com.softtech.bitirmeprojesiismaildemircann.app.prd.enums.PrdErrorMessage;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -17,6 +18,13 @@ public class PrdProductEntityService extends BaseEntityService<PrdProduct, PrdPr
         super(dao);
     }
 
+    public List<PrdProduct> findAll(Integer page, Integer size) {
+
+        List<PrdProduct> list = getDao().findAll(PageRequest.of(page, size)).toList();
+
+        return list;
+    }
+
     public List<PrdProduct> findAllByCategoryId(Long categoryId) {
 
         List<PrdProduct> prdProductList = getDao().findAllByProductCategoryId(categoryId);
@@ -26,9 +34,18 @@ public class PrdProductEntityService extends BaseEntityService<PrdProduct, PrdPr
         return prdProductList;
     }
 
-    public List<PrdProduct> findAllProductsByPriceFilter(BigDecimal minPrice, BigDecimal maxPrice) {
+    public List<PrdProduct> findAllByCategoryId(Long categoryId, Integer page, Integer size) {
 
-        List<PrdProduct> prdProductList = getDao().findByLastPriceBetween(minPrice, maxPrice);
+        List<PrdProduct> prdProductList = getDao().findAllByProductCategoryId(categoryId, PageRequest.of(page, size));
+
+        controlListIsNull(prdProductList);
+
+        return prdProductList;
+    }
+
+    public List<PrdProduct> findAllProductsByPriceFilter(BigDecimal minPrice, BigDecimal maxPrice, Integer page, Integer size) {
+
+        List<PrdProduct> prdProductList = getDao().findByLastPriceBetween(minPrice, maxPrice, PageRequest.of(page, size));
 
         controlListIsNull(prdProductList);
 

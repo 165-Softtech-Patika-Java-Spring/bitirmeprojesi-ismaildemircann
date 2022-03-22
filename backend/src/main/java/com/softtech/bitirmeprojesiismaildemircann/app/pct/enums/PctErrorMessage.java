@@ -8,7 +8,7 @@ public enum PctErrorMessage implements BaseErrorMessage {
     PRODUCT_CATEGORY_UPDATE_VAT_RATE_ERROR("An error occurred while updating the vat rate"),
     ;
 
-    private String message;
+    private final String message;
     PctErrorMessage(String message) {
         this.message = message;
     }

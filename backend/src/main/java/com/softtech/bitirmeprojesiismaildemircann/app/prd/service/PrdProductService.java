@@ -25,47 +25,38 @@ public class PrdProductService {
     public PrdProductResponseDto saveProduct(PrdProductSaveRequestDto prdProductSaveRequestDto) {
 
         BigDecimal taxFreePrice = prdProductSaveRequestDto.getTaxFreePrice();
-
         Long productCategoryId = prdProductSaveRequestDto.getProductCategoryId();
 
         Integer vatRate = pctProductCategoryService.getVatRate(productCategoryId);
         PrdProduct prdProduct = PrdProductMapper.INSTANCE.convertToPrdProduct(prdProductSaveRequestDto);
 
-        prdProduct = setProductPriceWithTax(prdProduct, taxFreePrice, vatRate);
+        setProductPriceWithTax(prdProduct, taxFreePrice, vatRate);
 
         prdProduct = prdProductEntityService.save(prdProduct);
 
-        PrdProductResponseDto prdProductResponseDto = PrdProductMapper.INSTANCE.convertToPrdProductResponseDto(prdProduct);;
-
-        return prdProductResponseDto;
+        return PrdProductMapper.INSTANCE.convertToPrdProductResponseDto(prdProduct);
 
     }
 
-    public List<PrdProductResponseDto> findAllProducts() {
+    public List<PrdProductResponseDto> findAllProducts(Integer page, Integer size) {
 
-        List<PrdProduct> prdProductList = prdProductEntityService.findAll();
+        List<PrdProduct> prdProductList = prdProductEntityService.findAll(page, size);
 
-        List<PrdProductResponseDto> prdProductResponseDtoList = PrdProductMapper.INSTANCE.convertToPrdProductResponseDtoList(prdProductList);
-
-        return  prdProductResponseDtoList;
+        return PrdProductMapper.INSTANCE.convertToPrdProductResponseDtoList(prdProductList);
     }
 
-    public List<PrdProductResponseDto> findAllProductsByCategory(Long categoryId) {
+    public List<PrdProductResponseDto> findAllProductsByCategory(Long categoryId, Integer page, Integer size) {
 
-        List<PrdProduct> prdProductList = prdProductEntityService.findAllByCategoryId(categoryId);
+        List<PrdProduct> prdProductList = prdProductEntityService.findAllByCategoryId(categoryId, page, size);
 
-        List<PrdProductResponseDto> prdProductResponseDtoList = PrdProductMapper.INSTANCE.convertToPrdProductResponseDtoList(prdProductList);
-
-        return  prdProductResponseDtoList;
+        return PrdProductMapper.INSTANCE.convertToPrdProductResponseDtoList(prdProductList);
     }
 
-    public List<PrdProductResponseDto> findAllProductsByPriceFilter(BigDecimal minPrice, BigDecimal maxPrice) {
+    public List<PrdProductResponseDto> findAllProductsByPriceFilter(BigDecimal minPrice, BigDecimal maxPrice, Integer page, Integer size) {
 
-        List<PrdProduct> prdProductList = prdProductEntityService.findAllProductsByPriceFilter(minPrice, maxPrice);
+        List<PrdProduct> prdProductList = prdProductEntityService.findAllProductsByPriceFilter(minPrice, maxPrice, page, size);
 
-        List<PrdProductResponseDto> prdProductResponseDtoList = PrdProductMapper.INSTANCE.convertToPrdProductResponseDtoList(prdProductList);
-
-        return prdProductResponseDtoList;
+        return PrdProductMapper.INSTANCE.convertToPrdProductResponseDtoList(prdProductList);
     }
 
     public void deleteProductById(Long productId) {
@@ -84,14 +75,12 @@ public class PrdProductService {
 
         prdProduct.setName(prdProductUpdateRequestDto.getName());
         prdProduct.setTaxFreePrice(newTaxFreePrice);
-        prdProduct = setProductPriceWithTax(prdProduct, newTaxFreePrice, vatRate);
+        setProductPriceWithTax(prdProduct, newTaxFreePrice, vatRate);
         prdProduct.setProductCategoryId(newCategoryId);
 
         prdProduct = prdProductEntityService.save(prdProduct);
 
-        PrdProductResponseDto prdProductResponseDto = PrdProductMapper.INSTANCE.convertToPrdProductResponseDto(prdProduct);;
-
-        return prdProductResponseDto;
+        return PrdProductMapper.INSTANCE.convertToPrdProductResponseDto(prdProduct);
     }
 
     public PrdProductResponseDto updateProductPrice(Long productId, BigDecimal newProductTaxFreePrice) {
@@ -101,13 +90,11 @@ public class PrdProductService {
         Integer vatRate = pctProductCategoryService.getVatRate(prdProduct.getProductCategoryId());
 
         prdProduct.setTaxFreePrice(newProductTaxFreePrice);
-        prdProduct = setProductPriceWithTax(prdProduct, newProductTaxFreePrice, vatRate);
+        setProductPriceWithTax(prdProduct, newProductTaxFreePrice, vatRate);
 
         prdProduct = prdProductEntityService.save(prdProduct);
 
-        PrdProductResponseDto prdProductResponseDto = PrdProductMapper.INSTANCE.convertToPrdProductResponseDto(prdProduct);
-
-        return prdProductResponseDto;
+        return PrdProductMapper.INSTANCE.convertToPrdProductResponseDto(prdProduct);
     }
 
     public void batchUpdateProductPrices(Long categoryId, Integer vatRate) {
@@ -119,7 +106,7 @@ public class PrdProductService {
         }
     }
 
-    private PrdProduct setProductPriceWithTax(PrdProduct prdProduct, BigDecimal taxFreePrice, Integer vatRate) {
+    private void setProductPriceWithTax(PrdProduct prdProduct, BigDecimal taxFreePrice, Integer vatRate) {
 
         validatePrice(taxFreePrice);
 
@@ -128,7 +115,6 @@ public class PrdProductService {
         prdProduct.setVatPrice(vatPrice);
         prdProduct.setLastPrice(lastPrice);
 
-        return prdProduct;
     }
 
     private BigDecimal calculateLastPrice(BigDecimal taxFreePrice, BigDecimal vatPrice) {
@@ -138,9 +124,7 @@ public class PrdProductService {
 
     private BigDecimal calculateVatPrice(BigDecimal taxFreePrice, Integer vatRate) {
 
-        BigDecimal vatPrice = taxFreePrice.multiply(BigDecimal.valueOf(vatRate)).divide(BigDecimal.valueOf(100));
-
-        return vatPrice;
+        return taxFreePrice.multiply(BigDecimal.valueOf(vatRate)).divide(BigDecimal.valueOf(100));
     }
 
     private void validatePrice(BigDecimal taxFreePrice) {

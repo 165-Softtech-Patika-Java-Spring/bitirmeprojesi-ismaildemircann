@@ -40,20 +40,14 @@ public class PctProductCategoryService {
 
         List<PctProductCategory> pctProductCategoryList = pctProductCategoryEntityService.findAll();
 
-        List<PctProductCategoryResponseDto> pctProductCategoryResponseDtoList
-                = PctProductCategoryMapper.INSTANCE.convertToPctProductCategoryResponseDtoList(pctProductCategoryList);
-
-        return  pctProductCategoryResponseDtoList;
+        return PctProductCategoryMapper.INSTANCE.convertToPctProductCategoryResponseDtoList(pctProductCategoryList);
     }
 
     public List<PctProductCategoryDetailResponseDto> findAllProductCategoriesWithDetail() {
 
         List<PctProductCategoryDetailResult> pctProductCategoryDetailResultList = pctProductCategoryEntityService.findAllProductCategoriesWithDetail();
 
-        List<PctProductCategoryDetailResponseDto> pctProductCategoryDetailResponseDtoList
-                = PctProductCategoryMapper.INSTANCE.convertToPctProductCategoryDetailResultList(pctProductCategoryDetailResultList);
-
-        return pctProductCategoryDetailResponseDtoList;
+        return PctProductCategoryMapper.INSTANCE.convertToPctProductCategoryDetailResultList(pctProductCategoryDetailResultList);
     }
 
     @Transactional
@@ -67,9 +61,7 @@ public class PctProductCategoryService {
 
             prdProductService.batchUpdateProductPrices(categoryId, vatRate);
 
-            PctProductCategoryResponseDto pctProductCategoryResponseDto = PctProductCategoryMapper.INSTANCE.convertToPctProductCategoryResponseDto(pctProductCategory);
-
-            return pctProductCategoryResponseDto;
+            return PctProductCategoryMapper.INSTANCE.convertToPctProductCategoryResponseDto(pctProductCategory);
 
         } catch (Exception e) {
             throw new GenBusinessException(PctErrorMessage.PRODUCT_CATEGORY_UPDATE_VAT_RATE_ERROR);

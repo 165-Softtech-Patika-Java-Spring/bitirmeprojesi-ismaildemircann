@@ -87,6 +87,84 @@ public class PrdProductServiceTest {
     }
 
     @Test
+    void shouldFindAllProducts() {
+
+        PrdProduct prdProduct = mock(PrdProduct.class);
+        List<PrdProduct> prdProductList = new ArrayList<>();
+        prdProductList.add(prdProduct);
+
+        when(prdProductEntityService.findAll(anyInt(), anyInt())).thenReturn(prdProductList);
+
+        List<PrdProductResponseDto> result = prdProductService.findAllProducts(0, 30);
+
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    void shouldFindAllProductsWhenProductListIsEmpty() {
+
+        List<PrdProduct> prdProductList = new ArrayList<>();
+
+        when(prdProductEntityService.findAll(anyInt(), anyInt())).thenReturn(prdProductList);
+
+        List<PrdProductResponseDto> result = prdProductService.findAllProducts(0, 30);
+
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    void shouldFindAllProductsByCategory() {
+
+        PrdProduct prdProduct = mock(PrdProduct.class);
+        List<PrdProduct> prdProductList = new ArrayList<>();
+        prdProductList.add(prdProduct);
+
+        when(prdProductEntityService.findAllByCategoryId(anyLong(), anyInt(), anyInt())).thenReturn(prdProductList);
+
+        List<PrdProductResponseDto> result = prdProductService.findAllProductsByCategory(1L,0, 30);
+
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    void shouldFindAllProductsByCategoryWhenProductListIsEmpty() {
+
+        List<PrdProduct> prdProductList = new ArrayList<>();
+
+        when(prdProductEntityService.findAllByCategoryId(anyLong(), anyInt(), anyInt())).thenReturn(prdProductList);
+
+        List<PrdProductResponseDto> result = prdProductService.findAllProductsByCategory(1L,0, 30);
+
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    void shouldFindAllProductsByPriceFilter() {
+
+        PrdProduct prdProduct = mock(PrdProduct.class);
+        List<PrdProduct> prdProductList = new ArrayList<>();
+        prdProductList.add(prdProduct);
+
+        when(prdProductEntityService.findAllProductsByPriceFilter(any(), any(), anyInt(), anyInt())).thenReturn(prdProductList);
+
+        List<PrdProductResponseDto> result = prdProductService.findAllProductsByPriceFilter(BigDecimal.ONE,BigDecimal.TEN,0, 30);
+
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    void shouldFindAllProductsByByPriceFilterWhenProductListIsEmpty() {
+
+        List<PrdProduct> prdProductList = new ArrayList<>();
+
+        when(prdProductEntityService.findAllProductsByPriceFilter(any(), any(), anyInt(), anyInt())).thenReturn(prdProductList);
+
+        List<PrdProductResponseDto> result = prdProductService.findAllProductsByPriceFilter(BigDecimal.ONE,BigDecimal.TEN,0, 30);
+
+        assertEquals(0, result.size());
+    }
+
+    @Test
     void shouldDeleteProduct() {
 
         doNothing().when(prdProductEntityService).deleteById(anyLong());

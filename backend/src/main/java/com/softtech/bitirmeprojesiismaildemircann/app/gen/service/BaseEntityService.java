@@ -29,13 +29,8 @@ public abstract class BaseEntityService<E extends BaseEntity, D extends JpaRepos
     }
 
     public List<E> findAll(){
-        List<E> list = dao.findAll();
 
-        if(list == null) {
-            throw new ItemNotFoundException(GenErrorMessage.ITEM_NOT_FOUND);
-        }
-
-        return list;
+        return dao.findAll();
     }
 
     public Optional<E> findById(Long id){
@@ -82,9 +77,7 @@ public abstract class BaseEntityService<E extends BaseEntity, D extends JpaRepos
 
         Optional<E> entityOptional = findById(id);
 
-        E entity = entityOptional.orElseThrow(() -> new ItemNotFoundException(GenErrorMessage.ITEM_NOT_FOUND));
-
-        return entity;
+        return entityOptional.orElseThrow(() -> new ItemNotFoundException(GenErrorMessage.ITEM_NOT_FOUND));
     }
 
     public boolean existsById(Long id){

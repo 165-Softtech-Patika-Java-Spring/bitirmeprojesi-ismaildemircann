@@ -2,15 +2,14 @@ package com.softtech.bitirmeprojesiismaildemircann.app.usr.service.entityservice
 
 import com.softtech.bitirmeprojesiismaildemircann.app.usr.dao.UsrUserDao;
 import com.softtech.bitirmeprojesiismaildemircann.app.usr.entity.UsrUser;
-import com.softtech.bitirmeprojesiismaildemircann.app.usr.service.UsrUserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

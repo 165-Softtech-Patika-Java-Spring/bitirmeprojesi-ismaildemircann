@@ -2,9 +2,12 @@ package com.softtech.bitirmeprojesiismaildemircann.app.pct.service;
 
 import com.softtech.bitirmeprojesiismaildemircann.app.gen.enums.GenErrorMessage;
 import com.softtech.bitirmeprojesiismaildemircann.app.gen.exceptions.ItemNotFoundException;
+import com.softtech.bitirmeprojesiismaildemircann.app.pct.dto.response.PctProductCategoryDetailResponseDto;
 import com.softtech.bitirmeprojesiismaildemircann.app.pct.dto.response.PctProductCategoryResponseDto;
 import com.softtech.bitirmeprojesiismaildemircann.app.pct.entity.PctProductCategory;
+import com.softtech.bitirmeprojesiismaildemircann.app.pct.entity.result.PctProductCategoryDetailResult;
 import com.softtech.bitirmeprojesiismaildemircann.app.pct.service.entityservice.PctProductCategoryEntityService;
+import com.softtech.bitirmeprojesiismaildemircann.app.prd.service.PrdProductService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,6 +25,9 @@ public class PctProductCategoryServiceTest {
 
     @Mock
     private PctProductCategoryEntityService pctProductCategoryEntityService;
+
+    @Mock
+    private PrdProductService prdProductService;
 
     @InjectMocks
     private PctProductCategoryService pctProductCategoryService;
@@ -58,10 +64,6 @@ public class PctProductCategoryServiceTest {
         List<PctProductCategory> pctProductCategoryList = new ArrayList<>();
         pctProductCategoryList.add(pctProductCategory);
 
-        PctProductCategoryResponseDto pctProductCategoryResponseDto = mock(PctProductCategoryResponseDto.class);
-        List<PctProductCategoryResponseDto>  pctProductCategoryResponseDtoList = new ArrayList<>();
-        pctProductCategoryResponseDtoList.add(pctProductCategoryResponseDto);
-
         when(pctProductCategoryEntityService.findAll()).thenReturn(pctProductCategoryList);
 
         List<PctProductCategoryResponseDto> result = pctProductCategoryService.findAllProductCategories();
@@ -73,13 +75,12 @@ public class PctProductCategoryServiceTest {
     void shouldFindAllProductCategoriesWhenProductCategoryListIsEmpty() {
 
         List<PctProductCategory> pctProductCategoryList = new ArrayList<>();
-        List<PctProductCategoryResponseDto> pctProductCategoryResponseDtoList = new ArrayList<>();
 
         when(pctProductCategoryEntityService.findAll()).thenReturn(pctProductCategoryList);
 
         List<PctProductCategoryResponseDto> result = pctProductCategoryService.findAllProductCategories();
 
-        assertEquals(pctProductCategoryResponseDtoList.size(), result.size());
+        assertEquals(0, result.size());
     }
 
     @Test
@@ -88,6 +89,41 @@ public class PctProductCategoryServiceTest {
         when(pctProductCategoryEntityService.findAll()).thenThrow(new ItemNotFoundException(GenErrorMessage.ITEM_NOT_FOUND));
 
         assertThrows(ItemNotFoundException.class, () -> pctProductCategoryService.findAllProductCategories());
+
+    }
+
+    @Test
+    void shouldFindAllProductCategoriesWithDetail() {
+
+        PctProductCategoryDetailResult pctProductCategoryDetailResult = mock(PctProductCategoryDetailResult.class);
+        List<PctProductCategoryDetailResult> pctProductCategoryDetailResultList = new ArrayList<>();
+        pctProductCategoryDetailResultList.add(pctProductCategoryDetailResult);
+
+        when(pctProductCategoryEntityService.findAllProductCategoriesWithDetail()).thenReturn(pctProductCategoryDetailResultList);
+
+        List<PctProductCategoryDetailResponseDto> result = pctProductCategoryService.findAllProductCategoriesWithDetail();
+
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    void shouldFindAllProductCategoriesWithDetailWhenProductCategoriesWithDetailListIsEmpty() {
+
+        List<PctProductCategoryDetailResult> pctProductCategoryDetailResultList = new ArrayList<>();
+
+        when(pctProductCategoryEntityService.findAllProductCategoriesWithDetail()).thenReturn(pctProductCategoryDetailResultList);
+
+        List<PctProductCategoryDetailResponseDto> result = pctProductCategoryService.findAllProductCategoriesWithDetail();
+
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    void shouldFindAllProductCategoriesWithDetailListIsNull() {
+
+        when(pctProductCategoryEntityService.findAllProductCategoriesWithDetail()).thenThrow(new ItemNotFoundException(GenErrorMessage.ITEM_NOT_FOUND));
+
+        assertThrows(ItemNotFoundException.class, () -> pctProductCategoryService.findAllProductCategoriesWithDetail());
 
     }
 }
