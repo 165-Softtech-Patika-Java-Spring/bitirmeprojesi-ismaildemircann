@@ -23,7 +23,7 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-    @Operation(tags = "Authentication Controller")
+    @Operation(tags = "Authentication", description = "This method return token using by given user information.")
     @Validated
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid SecLoginRequestDto secLoginRequestDto){
@@ -33,7 +33,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(RestResponse.of(token));
     }
 
-    @Operation(tags = "Authentication Controller")
+    @Operation(tags = "Authentication", description = "This method registers a user.")
     @Validated
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid UsrUserSaveRequestDto usrUserSaveRequestDto){

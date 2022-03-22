@@ -5,6 +5,7 @@ import com.softtech.bitirmeprojesiismaildemircann.app.prd.dto.request.PrdProduct
 import com.softtech.bitirmeprojesiismaildemircann.app.prd.dto.request.PrdProductUpdateRequestDto;
 import com.softtech.bitirmeprojesiismaildemircann.app.prd.dto.response.PrdProductResponseDto;
 import com.softtech.bitirmeprojesiismaildemircann.app.prd.service.PrdProductService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -22,6 +23,7 @@ public class PrdProductController {
 
     private final PrdProductService prdProductService;
 
+    @Operation(tags = "Product", description = "This method registers a product.")
     @PostMapping
     @Validated
     public ResponseEntity saveProduct(@RequestBody @Valid PrdProductSaveRequestDto prdProductSaveRequestDto) {
@@ -31,6 +33,7 @@ public class PrdProductController {
         return ResponseEntity.ok(RestResponse.of(prdProductResponseDto));
     }
 
+    @Operation(tags = "Product", description = "This method returns products by page and size")
     @GetMapping
     public ResponseEntity findAllProducts(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -42,6 +45,7 @@ public class PrdProductController {
         return ResponseEntity.ok(RestResponse.of(prdProductResponseDtoList));
     }
 
+    @Operation(tags = "Product", description = "This method returns products by page and size, by given category id")
     @GetMapping("{categoryId}")
     public ResponseEntity findAllProductsByCategory(
             @PathVariable Long categoryId,
@@ -54,6 +58,7 @@ public class PrdProductController {
         return ResponseEntity.ok(RestResponse.of(prdProductResponseDtoList));
     }
 
+    @Operation(tags = "Product", description = "This method will return products by page and size with given price range")
     @GetMapping("price")
     public ResponseEntity findAllProductsByPriceFilter(
             @Min(0) @RequestParam(value = "minPrice") BigDecimal minPrice,
@@ -67,6 +72,7 @@ public class PrdProductController {
         return ResponseEntity.ok(RestResponse.of(prdProductResponseDtoList));
     }
 
+    @Operation(tags = "Product", description = "This method deletes a product whose id is given.")
     @DeleteMapping("{productId}")
     public ResponseEntity deleteProduct(@PathVariable Long productId) {
 
@@ -76,6 +82,7 @@ public class PrdProductController {
 
     }
 
+    @Operation(tags = "Product", description = "This method updates a product's information.")
     @PutMapping()
     @Validated
     public ResponseEntity updateProduct(@RequestBody @Valid PrdProductUpdateRequestDto prdProductUpdateRequestDto) {
@@ -86,6 +93,7 @@ public class PrdProductController {
 
     }
 
+    @Operation(tags = "Product", description = "This method updates a product's price whose id is given.")
     @PatchMapping("{id}/{newProductPrice}")
     public ResponseEntity updateProductPrice(Long productId, BigDecimal newProductTaxFreePrice) {
 
