@@ -3,6 +3,7 @@ package com.softtech.bitirmeprojesiismaildemircann.app.gen.exception;
 import com.softtech.bitirmeprojesiismaildemircann.app.gen.dto.RestResponse;
 import com.softtech.bitirmeprojesiismaildemircann.app.gen.exceptions.GenBusinessException;
 import com.softtech.bitirmeprojesiismaildemircann.app.gen.exceptions.ItemNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.Date;
 
 @RestController
 @ControllerAdvice
+@Slf4j
 public class GenCustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
@@ -30,6 +32,9 @@ public class GenCustomizedResponseEntityExceptionHandler extends ResponseEntityE
 
         RestResponse<GenExceptionResponse> restResponse = RestResponse.error(genExceptionResponse);
         restResponse.setMessages(message);
+
+        String logErrorMessage = handleLogErrorMessage(message, description, String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()));
+        log.error(logErrorMessage);
 
         return new ResponseEntity<>(restResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -46,6 +51,9 @@ public class GenCustomizedResponseEntityExceptionHandler extends ResponseEntityE
         RestResponse<GenExceptionResponse> restResponse = RestResponse.error(genExceptionResponse);
         restResponse.setMessages(message);
 
+        String logErrorMessage = handleLogErrorMessage(message, description, String.valueOf(HttpStatus.NOT_FOUND.value()));
+        log.error(logErrorMessage);
+
         return new ResponseEntity<>(restResponse, HttpStatus.NOT_FOUND);
     }
 
@@ -61,7 +69,10 @@ public class GenCustomizedResponseEntityExceptionHandler extends ResponseEntityE
         RestResponse<GenExceptionResponse> restResponse = RestResponse.error(genExceptionResponse);
         restResponse.setMessages(message);
 
-        return new ResponseEntity<>(restResponse, HttpStatus.NOT_FOUND);
+        String logErrorMessage = handleLogErrorMessage(message, description, String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()));
+        log.error(logErrorMessage);
+
+        return new ResponseEntity<>(restResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override
@@ -69,13 +80,24 @@ public class GenCustomizedResponseEntityExceptionHandler extends ResponseEntityE
 
         Date errorDate = new Date();
         String message = new StringBuilder(ex.getBindingResult().getFieldError().getField()).append(" field not valid").toString();
-        String detailMessage = ex.getBindingResult().getFieldError().getDefaultMessage();
+        String description = ex.getBindingResult().getFieldError().getDefaultMessage();
 
-        GenExceptionResponse generalExceptionResponse = new GenExceptionResponse(errorDate,message,detailMessage);
+        GenExceptionResponse generalExceptionResponse = new GenExceptionResponse(errorDate,message,description);
 
         RestResponse<GenExceptionResponse> restResponse = RestResponse.error(generalExceptionResponse);
         restResponse.setMessages(message);
 
+        String logErrorMessage = handleLogErrorMessage(message, description, String.valueOf(HttpStatus.BAD_REQUEST.value()));
+        log.error(logErrorMessage);
+
         return new ResponseEntity<>(restResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    private String handleLogErrorMessage(String message, String detailMessage, String errorCode){
+
+        String logErrorMessage = new StringBuilder("Message: ").append(message)
+                .append(", Detail Message: ").append(detailMessage).append(", Error Code: ").append(errorCode).toString();
+
+        return  logErrorMessage;
     }
 }

@@ -7,7 +7,6 @@ import com.softtech.bitirmeprojesiismaildemircann.app.pct.dto.response.PctProduc
 import com.softtech.bitirmeprojesiismaildemircann.app.pct.entity.PctProductCategory;
 import com.softtech.bitirmeprojesiismaildemircann.app.pct.entity.result.PctProductCategoryDetailResult;
 import com.softtech.bitirmeprojesiismaildemircann.app.pct.service.entityservice.PctProductCategoryEntityService;
-import com.softtech.bitirmeprojesiismaildemircann.app.prd.service.PrdProductService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,7 +16,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -25,9 +25,6 @@ public class PctProductCategoryServiceTest {
 
     @Mock
     private PctProductCategoryEntityService pctProductCategoryEntityService;
-
-    @Mock
-    private PrdProductService prdProductService;
 
     @InjectMocks
     private PctProductCategoryService pctProductCategoryService;
@@ -125,27 +122,5 @@ public class PctProductCategoryServiceTest {
 
         assertThrows(ItemNotFoundException.class, () -> pctProductCategoryService.findAllProductCategoriesWithDetail());
 
-    }
-
-    @Test
-    void shouldUpdateVatRate() {
-        // FIXME:  prdProductService null geldiği için method catche düşüyor
-
-/*      Integer vatRate = 1;
-        PctProductCategory pctProductCategory = mock(PctProductCategory.class);
-
-        when(pctProductCategoryEntityService.getByIdWithControl(anyLong())).thenReturn(pctProductCategory);
-        when(pctProductCategoryEntityService.save(any())).thenReturn(pctProductCategory);
-
-        doNothing().when(prdProductService).batchUpdateProductPrices(anyLong(), anyInt());
-
-        when(pctProductCategory.getVatRate()).thenReturn(vatRate);
-
-        PctProductCategoryResponseDto pctProductCategoryResponseDto = pctProductCategoryService.updateVatRate(anyLong(), vatRate);
-
-        assertEquals(vatRate, pctProductCategoryResponseDto.getVatRate());
-
-        verify(pctProductCategoryEntityService).getByIdWithControl(anyLong());
-        verify(pctProductCategoryEntityService).save(any());*/
     }
 }

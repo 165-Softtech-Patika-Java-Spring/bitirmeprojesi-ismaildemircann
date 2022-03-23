@@ -6,6 +6,9 @@ import com.softtech.bitirmeprojesiismaildemircann.app.prd.dto.request.PrdProduct
 import com.softtech.bitirmeprojesiismaildemircann.app.prd.dto.response.PrdProductResponseDto;
 import com.softtech.bitirmeprojesiismaildemircann.app.prd.service.PrdProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,7 +26,24 @@ public class PrdProductController {
 
     private final PrdProductService prdProductService;
 
-    @Operation(tags = "Product", description = "This method registers a product.")
+    @Operation(
+            tags = "Product", description = "This method save a product.", summary = "Creates new product",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(
+                                            implementation = PrdProductSaveRequestDto.class
+                                    ),
+                                    examples = {
+                                            @ExampleObject(
+                                                    value = "{\"name\": \"Apple\",\"taxFreePrice\": \"18.50\",\"productCategoryId\": \"1\"}"
+                                            )
+                                    }
+                            ),
+                    }
+            )
+    )
     @PostMapping
     @Validated
     public ResponseEntity saveProduct(@RequestBody @Valid PrdProductSaveRequestDto prdProductSaveRequestDto) {
@@ -82,7 +102,24 @@ public class PrdProductController {
 
     }
 
-    @Operation(tags = "Product", description = "This method updates a product's information.")
+    @Operation(
+            tags = "Product", description = "This method updates a product's information.",summary = "Updates product",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(
+                                            implementation = PrdProductUpdateRequestDto.class
+                                    ),
+                                    examples = {
+                                            @ExampleObject(
+                                                    value = "{\"id\": \"1\",\"name\": \"Phone\",\"taxFreePrice\": \"4500\",\"productCategoryId\": \"5\"}"
+                                            )
+                                    }
+                            ),
+                    }
+            )
+    )
     @PutMapping()
     @Validated
     public ResponseEntity updateProduct(@RequestBody @Valid PrdProductUpdateRequestDto prdProductUpdateRequestDto) {
