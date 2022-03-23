@@ -5,6 +5,7 @@ import com.softtech.bitirmeprojesiismaildemircann.app.pct.dto.response.PctProduc
 import com.softtech.bitirmeprojesiismaildemircann.app.pct.dto.response.PctProductCategoryResponseDto;
 import com.softtech.bitirmeprojesiismaildemircann.app.pct.service.PctProductCategoryService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class PctProductCategoryController {
 
     private final PctProductCategoryService pctProductCategoryService;
 
-    @Operation(tags = "Product Category" ,description = "This method returns product categories.")
+    @Operation(tags = "Product Category" ,description = "This method returns product categories.", summary = "Get all product categories")
     @GetMapping
     public ResponseEntity findAllProductCategories() {
 
@@ -28,7 +29,7 @@ public class PctProductCategoryController {
         return ResponseEntity.ok(RestResponse.of(pctProductCategoryResponseDtoList));
     }
 
-    @Operation(tags = "Product Category", description = "This method returns product categories with detail")
+    @Operation(tags = "Product Category", description = "This method returns product categories with detail", summary = "Get all product categories with detail")
     @GetMapping("/detail")
     public ResponseEntity findAllProductCategoriesWithDetail() {
 
@@ -39,7 +40,9 @@ public class PctProductCategoryController {
 
     @Operation(tags = "Product Category", description = "This method updates a product category's VAT rate. The prices of all products belonging to this category id will be updated.")
     @PatchMapping("{categoryId}")
-    public ResponseEntity updateVatRate( @PathVariable Long categoryId, @Min(1) @RequestParam(value = "vatRate") Integer vatRate) {
+    public ResponseEntity updateVatRate(
+            @Parameter(required = true, example = "1") @PathVariable Long categoryId,
+            @Min(1) @RequestParam(value = "vatRate") Integer vatRate) {
 
         PctProductCategoryResponseDto pctProductCategoryResponseDto = pctProductCategoryService.updateVatRate(categoryId, vatRate);
 
