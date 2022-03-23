@@ -6,11 +6,15 @@ import com.softtech.bitirmeprojesiismaildemircann.app.prd.dto.request.PrdProduct
 import com.softtech.bitirmeprojesiismaildemircann.app.prd.dto.response.PrdProductResponseDto;
 import com.softtech.bitirmeprojesiismaildemircann.app.prd.service.PrdProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,51 +54,59 @@ public class PrdProductController {
 
         PrdProductResponseDto prdProductResponseDto = prdProductService.saveProduct(prdProductSaveRequestDto);
 
-        return ResponseEntity.ok(RestResponse.of(prdProductResponseDto));
+        WebMvcLinkBuilder link = WebMvcLinkBuilder.linkTo(
+                WebMvcLinkBuilder.methodOn(
+                        this.getClass()).deleteProduct(prdProductResponseDto.getId()));
+
+        EntityModel entityModel = EntityModel.of(prdProductResponseDto);
+
+        entityModel.add(link.withRel("delete-product"));
+
+        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(entityModel);
+
+        return ResponseEntity.ok(RestResponse.of(mappingJacksonValue));
     }
 
-    @Operation(tags = "Product", description = "This method returns products by page and size")
+    @Operation(tags = "Product", description = "This method returns products by page and size", summary = "Get all products")
     @GetMapping
     public ResponseEntity findAllProducts(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "30") Integer size
-    ) {
+            @RequestParam(value = "size", defaultValue = "30") Integer size) {
 
         List<PrdProductResponseDto> prdProductResponseDtoList = prdProductService.findAllProducts(page, size);
 
         return ResponseEntity.ok(RestResponse.of(prdProductResponseDtoList));
     }
 
-    @Operation(tags = "Product", description = "This method returns products by page and size, by given category id")
+    @Operation(tags = "Product", description = "This method returns products by page and size, by given category id", summary = "Get all products by given category id")
     @GetMapping("{categoryId}")
     public ResponseEntity findAllProductsByCategory(
-            @PathVariable Long categoryId,
+            @Parameter(required = true, description = "Ex: categoryId: 1") @PathVariable Long categoryId,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "30") Integer size
-    ) {
+            @RequestParam(value = "size", defaultValue = "30") Integer size) {
 
         List<PrdProductResponseDto> prdProductResponseDtoList = prdProductService.findAllProductsByCategory(categoryId, page, size);
 
         return ResponseEntity.ok(RestResponse.of(prdProductResponseDtoList));
     }
 
-    @Operation(tags = "Product", description = "This method will return products by page and size with given price range")
+    @Operation(tags = "Product", description = "This method will return products by page and size with given price range", summary = "Get all products by given price range")
     @GetMapping("price")
     public ResponseEntity findAllProductsByPriceFilter(
-            @Min(0) @RequestParam(value = "minPrice") BigDecimal minPrice,
-            @Min(0) @RequestParam(value = "maxPrice") BigDecimal maxPrice,
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "30") Integer size
-    ) {
+            @Min(0) @RequestParam(value = "minPrice", defaultValue = "1") BigDecimal minPrice,
+            @Min(0) @RequestParam(value = "maxPrice", defaultValue = "9999") BigDecimal maxPrice,
+            @Min(0) @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @Min(0) @RequestParam(value = "size", defaultValue = "30") Integer size) {
 
         List<PrdProductResponseDto> prdProductResponseDtoList = prdProductService.findAllProductsByPriceFilter(minPrice, maxPrice, page, size);
 
         return ResponseEntity.ok(RestResponse.of(prdProductResponseDtoList));
     }
 
-    @Operation(tags = "Product", description = "This method deletes a product whose id is given.")
+    @Operation(tags = "Product", description = "This method deletes a product whose id is given.", summary = "Delete product by given id")
     @DeleteMapping("{productId}")
-    public ResponseEntity deleteProduct(@PathVariable Long productId) {
+    public ResponseEntity deleteProduct(
+            @Parameter(required = true, description = "Ex: productId: 1") @PathVariable Long productId) {
 
         prdProductService.deleteProductById(productId);
 
@@ -103,7 +115,7 @@ public class PrdProductController {
     }
 
     @Operation(
-            tags = "Product", description = "This method updates a product's information.",summary = "Updates product",
+            tags = "Product", description = "This method updates a product's information.", summary = "Updates product",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     content = {
                             @Content(
@@ -130,9 +142,11 @@ public class PrdProductController {
 
     }
 
-    @Operation(tags = "Product", description = "This method updates a product's price whose id is given.")
-    @PatchMapping("{id}/{newProductPrice}")
-    public ResponseEntity updateProductPrice(Long productId, BigDecimal newProductTaxFreePrice) {
+    @Operation(tags = "Product", description = "This method updates a product's price whose id is given.", summary = "Updates product's price")
+    @PatchMapping("{productId}/")
+    public ResponseEntity updateProductPrice(
+            @Parameter(required = true, example = "1") @PathVariable Long productId,
+            @Min(0) @RequestParam(value = "newProductTaxFreePrice", defaultValue = "50") BigDecimal newProductTaxFreePrice) {
 
         PrdProductResponseDto prdProductResponseDto = prdProductService.updateProductPrice(productId, newProductTaxFreePrice);
 
