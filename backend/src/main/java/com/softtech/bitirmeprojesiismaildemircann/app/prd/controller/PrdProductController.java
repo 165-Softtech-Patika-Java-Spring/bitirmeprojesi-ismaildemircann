@@ -24,7 +24,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/products/")
+@RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
 public class PrdProductController {
 
@@ -64,7 +64,7 @@ public class PrdProductController {
 
         MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(entityModel);
 
-        return ResponseEntity.ok(RestResponse.of(mappingJacksonValue));
+        return ResponseEntity.ok(RestResponse.of(prdProductResponseDto));
     }
 
     @Operation(tags = "Product", description = "This method returns products by page and size", summary = "Get all products")
@@ -79,7 +79,7 @@ public class PrdProductController {
     }
 
     @Operation(tags = "Product", description = "This method returns products by page and size, by given category id", summary = "Get all products by given category id")
-    @GetMapping("{categoryId}")
+    @GetMapping("/{categoryId}")
     public ResponseEntity findAllProductsByCategory(
             @Parameter(required = true, description = "Ex: categoryId: 1") @PathVariable Long categoryId,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -91,7 +91,7 @@ public class PrdProductController {
     }
 
     @Operation(tags = "Product", description = "This method will return products by page and size with given price range", summary = "Get all products by given price range")
-    @GetMapping("price")
+    @GetMapping("/price")
     public ResponseEntity findAllProductsByPriceFilter(
             @Min(0) @RequestParam(value = "minPrice", defaultValue = "1") BigDecimal minPrice,
             @Min(0) @RequestParam(value = "maxPrice", defaultValue = "9999") BigDecimal maxPrice,
@@ -104,7 +104,7 @@ public class PrdProductController {
     }
 
     @Operation(tags = "Product", description = "This method deletes a product whose id is given.", summary = "Delete product by given id")
-    @DeleteMapping("{productId}")
+    @DeleteMapping("/{productId}")
     public ResponseEntity deleteProduct(
             @Parameter(required = true, description = "Ex: productId: 1") @PathVariable Long productId) {
 
@@ -143,7 +143,7 @@ public class PrdProductController {
     }
 
     @Operation(tags = "Product", description = "This method updates a product's price whose id is given.", summary = "Updates product's price")
-    @PatchMapping("{productId}/")
+    @PatchMapping("/{productId}")
     public ResponseEntity updateProductPrice(
             @Parameter(required = true, example = "1") @PathVariable Long productId,
             @Min(0) @RequestParam(value = "newProductTaxFreePrice", defaultValue = "50") BigDecimal newProductTaxFreePrice) {

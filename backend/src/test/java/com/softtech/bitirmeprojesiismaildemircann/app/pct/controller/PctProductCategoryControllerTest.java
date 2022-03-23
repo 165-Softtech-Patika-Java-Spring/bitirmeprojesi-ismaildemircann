@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -42,7 +42,7 @@ class PctProductCategoryControllerTest extends BaseTest {
     void findAllProductCategories() throws Exception {
 
         MvcResult result = mockMvc.perform(
-                get(BASE_PATH + "/detail").content("").contentType(MediaType.APPLICATION_JSON)
+                get(BASE_PATH).content("").contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andReturn();
 
         boolean isSuccess = isSuccess(result);
@@ -54,7 +54,19 @@ class PctProductCategoryControllerTest extends BaseTest {
     void findAllProductCategoriesWithDetail() throws Exception {
 
         MvcResult result = mockMvc.perform(
-                get(BASE_PATH).content("").contentType(MediaType.APPLICATION_JSON)
+                get(BASE_PATH + "/detail").content("").contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk()).andReturn();
+
+        boolean isSuccess = isSuccess(result);
+
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    void updateVatRate() throws Exception {
+
+        MvcResult result = mockMvc.perform(
+                patch(BASE_PATH + "/1?vatRate=8").content("1L").contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andReturn();
 
         boolean isSuccess = isSuccess(result);

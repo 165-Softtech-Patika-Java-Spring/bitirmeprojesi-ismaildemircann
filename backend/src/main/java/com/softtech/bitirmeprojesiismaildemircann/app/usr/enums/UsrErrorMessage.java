@@ -7,7 +7,7 @@ public enum UsrErrorMessage implements BaseErrorMessage {
     USER_USERNAME_EXIST_MESSAGE("Username is already taken!"),
     ;
 
-    private String message;
+    private final String message;
     UsrErrorMessage(String message) {
         this.message = message;
     }

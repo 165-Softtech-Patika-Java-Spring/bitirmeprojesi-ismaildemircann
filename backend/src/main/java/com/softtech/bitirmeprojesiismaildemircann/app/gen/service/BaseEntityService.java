@@ -78,7 +78,7 @@ public abstract class BaseEntityService<E extends BaseEntity, D extends JpaRepos
 
     public void deleteById(Long id) {
 
-        if(existsById(id)) {
+        if(!existsById(id)) {
             throw new ItemNotFoundException(GenErrorMessage.ITEM_NOT_FOUND);
         }
 
