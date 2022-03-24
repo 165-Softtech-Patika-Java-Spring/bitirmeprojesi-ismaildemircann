@@ -26,7 +26,7 @@ public class UsrUserController {
     private final UsrUserService usrUserService;
 
     @Operation(
-            tags = "User", description = "This method registers a user.", summary = "Registers user",
+            tags = "User", description = "This method saves a user.", summary = "Saves user",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     content = {
                             @Content(
@@ -36,7 +36,7 @@ public class UsrUserController {
                                     ),
                                     examples = {
                                             @ExampleObject(
-                                                    value = "{\"username\": \"ismail_demircan\",\"password\": \"12345678\",\"name\": \"ismail\",\"surname\": \"demircan\"}"
+                                                    value = "{\"username\": \"demircan_ismail\",\"password\": \"87654321\",\"name\": \"ismail\",\"surname\": \"demircan\"}"
                                             )
                                     }
                             ),
@@ -83,7 +83,7 @@ public class UsrUserController {
     @Operation(tags = "User", description = "This method deletes a user whose id is given.", summary = "Delete user by given id")
     @DeleteMapping("/{userId}")
     public ResponseEntity deleteUser(
-            @Parameter(name = "userId",in = ParameterIn.PATH, schema = @Schema(type = "number", example = "1"))
+            @Parameter(name = "userId",in = ParameterIn.PATH, schema = @Schema(type = "number", example = "51"))
             @PathVariable Long userId) {
 
         usrUserService.deleteUser(userId);
