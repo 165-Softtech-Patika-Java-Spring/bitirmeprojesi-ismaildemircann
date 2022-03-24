@@ -7,6 +7,7 @@ import com.softtech.bitirmeprojesiismaildemircann.app.prd.dto.response.PrdProduc
 import com.softtech.bitirmeprojesiismaildemircann.app.prd.service.PrdProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -64,7 +65,7 @@ public class PrdProductController {
 
         MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(entityModel);
 
-        return ResponseEntity.ok(RestResponse.of(prdProductResponseDto));
+        return ResponseEntity.ok(RestResponse.of(mappingJacksonValue));
     }
 
     @Operation(tags = "Product", description = "This method returns products by page and size", summary = "Get all products")
@@ -81,7 +82,8 @@ public class PrdProductController {
     @Operation(tags = "Product", description = "This method returns products by page and size, by given category id", summary = "Get all products by given category id")
     @GetMapping("/{categoryId}")
     public ResponseEntity findAllProductsByCategory(
-            @Parameter(required = true, description = "Ex: categoryId: 1") @PathVariable Long categoryId,
+            @Parameter(name = "categoryId",in = ParameterIn.PATH, schema = @Schema(type = "number", example = "1"))
+            @PathVariable Long categoryId,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "30") Integer size) {
 
@@ -93,8 +95,10 @@ public class PrdProductController {
     @Operation(tags = "Product", description = "This method will return products by page and size with given price range", summary = "Get all products by given price range")
     @GetMapping("/price")
     public ResponseEntity findAllProductsByPriceFilter(
-            @Min(0) @RequestParam(value = "minPrice", defaultValue = "1") BigDecimal minPrice,
-            @Min(0) @RequestParam(value = "maxPrice", defaultValue = "9999") BigDecimal maxPrice,
+            @Parameter(name = "minPrice",in = ParameterIn.QUERY, schema = @Schema(type = "number", example = "1"))
+            @Min(0) @RequestParam(value = "minPrice") BigDecimal minPrice,
+            @Parameter(name = "maxPrice",in = ParameterIn.QUERY, schema = @Schema(type = "number", example = "9999"))
+            @Min(0) @RequestParam BigDecimal maxPrice,
             @Min(0) @RequestParam(value = "page", defaultValue = "0") Integer page,
             @Min(0) @RequestParam(value = "size", defaultValue = "30") Integer size) {
 
@@ -106,7 +110,8 @@ public class PrdProductController {
     @Operation(tags = "Product", description = "This method deletes a product whose id is given.", summary = "Delete product by given id")
     @DeleteMapping("/{productId}")
     public ResponseEntity deleteProduct(
-            @Parameter(required = true, description = "Ex: productId: 1") @PathVariable Long productId) {
+            @Parameter(name = "productId",in = ParameterIn.PATH, schema = @Schema(type = "number", example = "1"))
+            @PathVariable Long productId) {
 
         prdProductService.deleteProductById(productId);
 
@@ -145,8 +150,10 @@ public class PrdProductController {
     @Operation(tags = "Product", description = "This method updates a product's price whose id is given.", summary = "Updates product's price")
     @PatchMapping("/{productId}")
     public ResponseEntity updateProductPrice(
-            @Parameter(required = true, example = "1") @PathVariable Long productId,
-            @Min(0) @RequestParam(value = "newProductTaxFreePrice", defaultValue = "50") BigDecimal newProductTaxFreePrice) {
+            @Parameter(name = "productId",in = ParameterIn.PATH, schema = @Schema(type = "number", example = "1"))
+            @PathVariable Long productId,
+            @Parameter(name = "newProductTaxFreePrice",in = ParameterIn.QUERY, schema = @Schema(type = "number", example = "50"))
+            @Min(0) @RequestParam BigDecimal newProductTaxFreePrice) {
 
         PrdProductResponseDto prdProductResponseDto = prdProductService.updateProductPrice(productId, newProductTaxFreePrice);
 

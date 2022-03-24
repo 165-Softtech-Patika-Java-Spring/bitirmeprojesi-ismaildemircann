@@ -7,6 +7,7 @@ import com.softtech.bitirmeprojesiismaildemircann.app.usr.dto.response.UsrUserRe
 import com.softtech.bitirmeprojesiismaildemircann.app.usr.service.UsrUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -82,7 +83,8 @@ public class UsrUserController {
     @Operation(tags = "User", description = "This method deletes a user whose id is given.", summary = "Delete user by given id")
     @DeleteMapping("/{userId}")
     public ResponseEntity deleteUser(
-            @Parameter(required = true, description = "Ex: userId: 1") @PathVariable Long userId) {
+            @Parameter(name = "userId",in = ParameterIn.PATH, schema = @Schema(type = "number", example = "1"))
+            @PathVariable Long userId) {
 
         usrUserService.deleteUser(userId);
 
