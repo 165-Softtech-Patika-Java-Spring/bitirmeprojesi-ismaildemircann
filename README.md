@@ -42,6 +42,7 @@ Open http://localhost:3000 to view it in your browser.
 * `Jwt` was used for security.
 * Save, update and delete methods are saved to the file with `logback.xml`.
 * With `triggers`, data is added to the relevant log table after updating and deleting operations.
+* After adding the product, a deletion link was given using `Hateoas`.
 
 ### Frontend
 * `Redux` structure installed. Tested using for variable product list .
@@ -67,6 +68,18 @@ Open http://localhost:3000 to view it in your browser.
 └───src                                                     
     └───index.js    # You can change url
 ```
+
+## Api
+### To make a request in Swagger, do not forget to register and then log in and be authenticed with the incoming token.
+![Image](https://github.com/165-Softtech-Patika-Java-Spring/bitirmeprojesi-ismaildemircann/blob/main/README%20Resources/Swagger_Login.png?raw=true)
+
+### You can test the api from Swagger.
+![Image](https://github.com/165-Softtech-Patika-Java-Spring/bitirmeprojesi-ismaildemircann/blob/main/README%20Resources/swagger.png?raw=true)
+
+
+## Demo
+![Image](https://github.com/165-Softtech-Patika-Java-Spring/bitirmeprojesi-ismaildemircann/blob/main/README%20Resources/reactGif.gif?raw=true)
+
 # Bitirme Projesi
 
 Projenin Konusu:
