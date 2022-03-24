@@ -1,0 +1,7 @@
+25-03-2022 00:00:12.884[http-nio-8080-exec-10]INFO c.s.b.a.g.s.BaseEntityService.save - PrdProduct is saved
+25-03-2022 00:01:08.264[http-nio-8080-exec-9]INFO c.s.b.a.g.s.BaseEntityService.save - PrdProduct is saved
+25-03-2022 00:01:17.470[http-nio-8080-exec-1]INFO c.s.b.a.g.s.BaseEntityService.save - PrdProduct is saved
+25-03-2022 00:01:48.319[http-nio-8080-exec-10]INFO c.s.b.a.g.s.BaseEntityService.save - PctProductCategory is saved
+25-03-2022 00:06:04.320[SpringApplicationShutdownHook]INFO o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+25-03-2022 00:06:04.322[SpringApplicationShutdownHook]INFO c.z.h.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+25-03-2022 00:06:04.334[SpringApplicationShutdownHook]INFO c.z.h.HikariDataSource.close - HikariPool-1 - Shutdown completed.
