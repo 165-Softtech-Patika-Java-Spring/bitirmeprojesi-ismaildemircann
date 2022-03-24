@@ -40,7 +40,7 @@ Open http://localhost:3000 to view it in your browser.
 * `H2` database was created for the integration test
 * `Mockito` and `Junit` were used for testing.
 * `Jwt` was used for security.
-* Save, update and delete methods are saved to the file with `logback.xml`.
+* Save, update and delete methods are saved to the file with `logback.xml` and `reflection`.
 * With `triggers`, data is added to the relevant log table after updating and deleting operations.
 * After adding the product, a deletion link was given using `Hateoas`.
 
