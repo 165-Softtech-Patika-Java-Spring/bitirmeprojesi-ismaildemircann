@@ -15,7 +15,7 @@ const ProductContainer = () => {
     const productsData = useSelector((state) => state.products.data);
 
     return (
-        <ImageList cols={4} gap={15}>
+        <ImageList cols={3} gap={15}>
             {productsData.map((item) => (
                 <ListItem key={`item-${item?.id}-${item}`}>
                     {<ProductCard
