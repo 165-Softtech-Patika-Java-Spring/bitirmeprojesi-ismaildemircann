@@ -153,7 +153,7 @@ public class PrdProductServiceTest {
     }
 
     @Test
-    void shouldFindAllProductsByByPriceFilterWhenProductListIsEmpty() {
+    void shouldFindAllProductsByPriceFilterWhenProductListIsEmpty() {
 
         List<PrdProduct> prdProductList = new ArrayList<>();
 
