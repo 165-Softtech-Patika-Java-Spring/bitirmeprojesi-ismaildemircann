@@ -22,6 +22,10 @@ public class PrdProductService {
     private final PrdProductEntityService prdProductEntityService;
     private final PctProductCategoryService pctProductCategoryService;
 
+    /**
+     * @param prdProductSaveRequestDto {name, taxFreePrice, productCategoryId}
+     * @return This method returns the updated product information.
+     */
     public PrdProductResponseDto saveProduct(PrdProductSaveRequestDto prdProductSaveRequestDto) {
 
         BigDecimal taxFreePrice = prdProductSaveRequestDto.getTaxFreePrice();
@@ -38,6 +42,11 @@ public class PrdProductService {
 
     }
 
+    /**
+     * @param page Page number
+     * @param size Page size
+     * @return This method returns product list.
+     */
     public List<PrdProductResponseDto> findAllProducts(Integer page, Integer size) {
 
         List<PrdProduct> prdProductList = prdProductEntityService.findAll(page, size);
@@ -45,6 +54,12 @@ public class PrdProductService {
         return PrdProductMapper.INSTANCE.convertToPrdProductResponseDtoList(prdProductList);
     }
 
+    /**
+     * @param categoryId Category's id
+     * @param page Page number
+     * @param size Page size
+     * @return This method returns product list by given category id.
+     */
     public List<PrdProductResponseDto> findAllProductsByCategory(Long categoryId, Integer page, Integer size) {
 
         List<PrdProduct> prdProductList = prdProductEntityService.findAllByCategoryId(categoryId, page, size);
@@ -52,6 +67,13 @@ public class PrdProductService {
         return PrdProductMapper.INSTANCE.convertToPrdProductResponseDtoList(prdProductList);
     }
 
+    /**
+     * @param minPrice Minunum price
+     * @param maxPrice Maximum price
+     * @param page Page number
+     * @param size Page size
+     * @return This method returns product list by given price range.
+     */
     public List<PrdProductResponseDto> findAllProductsByPriceFilter(BigDecimal minPrice, BigDecimal maxPrice, Integer page, Integer size) {
 
         List<PrdProduct> prdProductList = prdProductEntityService.findAllProductsByPriceFilter(minPrice, maxPrice, page, size);
@@ -59,11 +81,18 @@ public class PrdProductService {
         return PrdProductMapper.INSTANCE.convertToPrdProductResponseDtoList(prdProductList);
     }
 
+    /**
+     * @param productId Product's id
+     */
     public void deleteProductById(Long productId) {
 
         prdProductEntityService.deleteById(productId);
     }
 
+    /**
+     * @param prdProductUpdateRequestDto {id, name, taxFreePrice, productCategoryId}
+     * @return This method returns the updated product information.
+     */
     public PrdProductResponseDto updateProduct(PrdProductUpdateRequestDto prdProductUpdateRequestDto) {
 
         Long productId = prdProductUpdateRequestDto.getId();
@@ -83,6 +112,11 @@ public class PrdProductService {
         return PrdProductMapper.INSTANCE.convertToPrdProductResponseDto(prdProduct);
     }
 
+    /**
+     * @param productId Product's id
+     * @param newProductTaxFreePrice New price of the product
+     * @return This method returns the updated product information.
+     */
     public PrdProductResponseDto updateProductPrice(Long productId, BigDecimal newProductTaxFreePrice) {
 
         PrdProduct prdProduct = prdProductEntityService.getByIdWithControl(productId);
@@ -97,6 +131,11 @@ public class PrdProductService {
         return PrdProductMapper.INSTANCE.convertToPrdProductResponseDto(prdProduct);
     }
 
+    /**
+     * This method updates the VAT prices and latest prices of all products in that category according to the given VAT rate.
+     * @param categoryId Product category's id
+     * @param vatRate Value-added tax of product category
+     */
     public void batchUpdateProductPrices(Long categoryId, Integer vatRate) {
 
         List<PrdProduct> prdProductList = prdProductEntityService.findAllByCategoryId(categoryId);

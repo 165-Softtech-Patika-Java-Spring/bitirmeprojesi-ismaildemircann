@@ -19,6 +19,10 @@ public class UsrUserService {
     private final UsrUserEntityService usrUserEntityService;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * @param usrUserSaveRequestDto {username, password, name, surname}
+     * @return This method returns the saved user information.
+     */
     public UsrUserResponseDto saveUser(UsrUserSaveRequestDto usrUserSaveRequestDto) {
 
         String username = usrUserSaveRequestDto.getUsername();
@@ -36,6 +40,10 @@ public class UsrUserService {
         return usrUserResponseDto;
     }
 
+    /**
+     * @param usrUserUpdateRequestDto {id, username, password, name, surname}
+     * @return This method returns the updated user information.
+     */
     public UsrUserResponseDto updateUser(UsrUserUpdateRequestDto usrUserUpdateRequestDto) {
 
         Long userId = usrUserUpdateRequestDto.getId();
@@ -58,6 +66,9 @@ public class UsrUserService {
         return usrUserResponseDto;
     }
 
+    /**
+     * @param userId User's id
+     */
     public void deleteUser(Long userId) {
         UsrUser usrUser = usrUserEntityService.getByIdWithControl(userId);
         usrUserEntityService.delete(usrUser);

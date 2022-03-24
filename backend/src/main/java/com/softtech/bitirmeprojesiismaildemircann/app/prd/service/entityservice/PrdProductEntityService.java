@@ -29,16 +29,12 @@ public class PrdProductEntityService extends BaseEntityService<PrdProduct, PrdPr
 
         List<PrdProduct> prdProductList = getDao().findAllByProductCategoryId(categoryId);
 
-        controlListIsNull(prdProductList);
-
         return prdProductList;
     }
 
     public List<PrdProduct> findAllByCategoryId(Long categoryId, Integer page, Integer size) {
 
         List<PrdProduct> prdProductList = getDao().findAllByProductCategoryId(categoryId, PageRequest.of(page, size));
-
-        controlListIsNull(prdProductList);
 
         return prdProductList;
     }
@@ -47,14 +43,6 @@ public class PrdProductEntityService extends BaseEntityService<PrdProduct, PrdPr
 
         List<PrdProduct> prdProductList = getDao().findByLastPriceBetween(minPrice, maxPrice, PageRequest.of(page, size));
 
-        controlListIsNull(prdProductList);
-
         return prdProductList;
-    }
-
-    private void controlListIsNull(List<PrdProduct> prdProductList) {
-        if(prdProductList == null) {
-            throw new GenBusinessException(PrdErrorMessage.PRODUCT_NOT_FOUND_FOR_THIS_SEARCH_CRITERIA);
-        }
     }
 }

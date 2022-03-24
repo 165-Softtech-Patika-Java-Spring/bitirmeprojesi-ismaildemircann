@@ -22,11 +22,19 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenGenerator jwtTokenGenerator;
 
+    /**
+     * @param usrUserSaveRequestDto {username, password, name, surname}
+     * @return This method returns the registered user information.
+     */
     public UsrUserResponseDto register(UsrUserSaveRequestDto usrUserSaveRequestDto) {
 
         return usrUserService.saveUser(usrUserSaveRequestDto);
     }
 
+    /**
+     * @param secLoginRequestDto {username, password}
+     * @return This method returns a token(JWT) for the logged in user.
+     */
     public String login(SecLoginRequestDto secLoginRequestDto) {
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(secLoginRequestDto.getUsername(), secLoginRequestDto.getPassword());
@@ -40,6 +48,9 @@ public class AuthenticationService {
         return bearer + token;
     }
 
+    /**
+     * @return This method returns current user's id.
+     */
     public Long getCurrentUserId(){
 
         JwtUserDetails jwtUserDetails = getCurrentJwtUserDetails();
