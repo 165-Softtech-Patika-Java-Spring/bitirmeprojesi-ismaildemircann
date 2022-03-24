@@ -1,3 +1,72 @@
+# SOFTTECH SPRING BOOTCAMP GRADUATION PROJECT
+
+## Requirements
+
+For building and running the application you need:
+
+- [JDK 11.0.13](https://www.oracle.com/tr/java/technologies/javase/jdk11-archive-downloads.html)
+- [Maven 4](https://maven.apache.org)
+- [PostgreSql 4](https://www.postgresql.org/download/)
+
+## Running the application locally
+
+First of all, dml and ddl scripts should be run after cloning the project.Afterwards, the relevant packages should be installed by `maven install`. After these procedures you can run application.
+
+There are several ways to run a Spring Boot application on your local machine. One way is to execute the `main` method in the `BitirmeprojesiIsmaildemircannApplication` class from your IDE.
+
+Alternatively you can use the [Spring Boot Maven plugin](https://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-maven-plugin.html) like so:
+
+```shell
+mvn spring-boot:run
+```
+
+## Client App
+
+I have developed a simple react project to show that the web service application is working correctly. I have shown the user and auth operations as well as the product listing function with simple designs.
+
+For building and running the application you need:
+[Node v16.10.0](https://nodejs.org/de/blog/release/v16.10.0/)
+
+In order to run the client application, the packages related to the "npm install" command must be installed first.
+
+In the project directory, you can run:
+
+npm run start
+Runs the app in the development mode.
+Open http://localhost:3000 to view it in your browser.
+
+## Structures Used In The Project
+### Backend
+* `H2` database was created for the integration test
+* `Mockito` and `Junit` were used for testing.
+* `Jwt` was used for security.
+* Save, update and delete methods are saved to the file with `logback.xml`.
+* With `triggers`, data is added to the relevant log table after updating and deleting operations.
+
+### Frontend
+* `Redux` structure installed. Tested using for variable product list .
+* `Material-UI` library were used for desings.
+
+
+# File Structure
+```
+* Backend
+│   pom.xml
+│  
+├───resources 
+│       application.properties # Change port and database settings
+│  
+└───src                                                     
+    └───main  
+        ├───java  
+        │   └───com  
+        
+* Frontend
+│   package.json
+│  
+└───src                                                     
+    └───index.js    # You can change url
+```
 # Bitirme Projesi
 
 Projenin Konusu:
