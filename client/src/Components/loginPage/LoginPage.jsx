@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Copyright from '../copyright/Copyright';
-import loginReq from '../../api/AuthenticationService';
+import { loginReq } from '../../api/AuthenticationService';
 
 const theme = createTheme();
 
@@ -20,12 +20,12 @@ export default function LoginPage({ login, ...props }) {
 
     loginReq(data.get('username'), data.get('password'))
       .then(response => handleResponse(response))
+      .catch(err => alert("Username or password is incorrect!"))
   };
 
   const handleResponse = (response) => {
-    console.log(response)
-    sessionStorage.setItem('token', response.data.data.jwt)
-    localStorage.setItem('token', response.data.data.jwt)
+    sessionStorage.setItem('token', response.data.data)
+    localStorage.setItem('token', response.data.data)
 
     login();
   }
@@ -75,7 +75,7 @@ export default function LoginPage({ login, ...props }) {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Giriş Yap
+              Sign In
             </Button>
           </Box>
         </Box>

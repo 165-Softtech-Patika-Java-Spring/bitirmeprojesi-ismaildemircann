@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const loginReq = (username, password) => {
+export const loginReq = (username, password) => {
 
     const data = {
         username: username,
@@ -12,4 +12,9 @@ const loginReq = (username, password) => {
     return axios.post(url, data);
 }
 
-export default loginReq;
+export const registerReq = (userSaveDto) => {
+
+    const url = "/auth/register"
+
+    return axios.post(url, userSaveDto);
+}

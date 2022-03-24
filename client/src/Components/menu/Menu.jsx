@@ -1,4 +1,3 @@
-import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,7 +12,7 @@ export default function Menu({ isLoggedOn, logout, ...props }) {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" style={{background: AppColors.blue}}>
+            <AppBar position="static" style={{ background: AppColors.blue }}>
                 <Toolbar>
                     <Button variant="contained" href="/">
                         Main Page
@@ -23,7 +22,10 @@ export default function Menu({ isLoggedOn, logout, ...props }) {
                     </Button>
                     {isLoggedOn
                         ? <Button variant="contained" href="/login" onClick={handleLogout}>Logout</Button>
-                        : <Button variant="contained" href="/login">Login</Button>
+                        : (<>
+                            <Button variant="contained" href="/sign-up">Sign Up</Button>
+                            <Button variant="contained" href="/login">Login</Button>
+                        </>)
                     }
                 </Toolbar>
             </AppBar>
