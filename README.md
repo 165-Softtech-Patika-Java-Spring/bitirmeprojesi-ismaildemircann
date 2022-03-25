@@ -43,10 +43,30 @@ Open http://localhost:3000 to view it in your browser.
 * Save, update and delete methods are saved to the file with `logback.xml` and `reflection`.
 * With `triggers`, data is added to the relevant log table after updating and deleting operations.
 * After adding the product, a deletion link was given using `Hateoas`.
+* Generic base model implemented in for services and entities.
+* General exception handling structing was created.
+
+> **Test**
+ * Unit
+ * Integration 
+ 
+ `87% classes, 70% covered in entire project.`
+
+> **Runing Tests**
+* Before running tests, make sure the resource package is shown as test resources under test resources in the project structure.
+
+```
+          └───src
+                └──main
+                └──test
+                     └──resources
+  
+```
 
 ### Frontend
 * `Redux` structure installed. Tested using for variable product list .
 * `Material-UI` library were used for desings.
+* `Axios` library were using for requests.
 
 
 # File Structure
